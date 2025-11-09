@@ -1,13 +1,14 @@
-
-// src/components/Navbar.jsx
-import React from "react";
+import React, { useContext } from "react";
 import { Link, NavLink } from "react-router";
+import { AuthContext } from "../contexts/AuthContext";
 
 const Navbar = () => {
+
+    const result = useContext(AuthContext);
+    console.log(result);
   return (
-    <nav className="bg-base-100 shadow-sm sticky top-0 z-50 px-6 py-3">
+    <nav className="bg-base-100 shadow-sm  top-0 z-50 px-6 py-3">
       <div className="container mx-auto flex items-center">
-        {/* LEFT - Project Name */}
         <div className="flex-1">
           <Link
             to="/"
@@ -17,7 +18,6 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* MIDDLE - Links */}
         <div className="flex-1 flex justify-center space-x-8 text-lg font-medium">
           <NavLink
             to="/"
@@ -53,9 +53,8 @@ const Navbar = () => {
           </NavLink>
         </div>
 
-        {/* RIGHT - Profile Image */}
         <div className="flex-1 flex justify-end">
-          <div className="dropdown dropdown-end">
+          {/* <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
               role="button"
@@ -67,6 +66,7 @@ const Navbar = () => {
                   src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
                 />
               </div>
+              
             </div>
             <ul
               tabIndex={0}
@@ -78,10 +78,17 @@ const Navbar = () => {
                   <span className="badge">New</span>
                 </a>
               </li>
-              <li><a>Settings</a></li>
-              <li><a>Logout</a></li>
+              <li>
+                <a>Settings</a>
+              </li>
+              <li>
+                <a>Logout</a>
+              </li>
             </ul>
-          </div>
+          </div> */}
+          <NavLink to="/auth/login"> 
+            <button className="btn bg-blue-600 text-white shadow-lg hover:bg-blue-700 transition duration-150">Login </button>
+          </NavLink>
         </div>
       </div>
     </nav>

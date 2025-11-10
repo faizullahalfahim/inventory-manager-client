@@ -1,19 +1,38 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 import { Link } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
-import { toast } from "react-toastify";
+import { toast , ToastContainer } from "react-toastify";
+
 
 
 const Register = () => {
-     const {createUserWithEmailAndPasswordFunc} = useContext(AuthContext);
+    const [nameError, setNameError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+     const {createUserWithEmailAndPasswordFunc,
+       updateUserProfileFunc,
+       signInWithPopupFunc
+       } = useContext(AuthContext);
     const handleRegister = (e) => {
         e.preventDefault();
         console.log("Register form submitted");
         const form =e.target;
         const name = form.name.value;
+        if (name.length < 6) {
+            setNameError('Name must be at least 6 characters long');
+            return;
+        } else {
+            setNameError('');
+        }
         const email = form.email.value;
         const password = form.password.value;
+        const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\-=/\\|]).{6,}$/;
+        if ( !passwordPattern.test(password)) {
+            setPasswordError('Password must be at least 8 characters long and include at least one uppercase letter, one number, and one special character.');
+            return;
+        } else {
+            setPasswordError('');
+        }
         console.log(name, email, password);
          createUserWithEmailAndPasswordFunc (email, password)
     .then(result => {
@@ -21,13 +40,36 @@ const Register = () => {
         console.log(user);
         toast.success("User registered successfully");
         form.reset();
+        updateUserProfileFunc ({displayName: name})
+        .then ( () => {
+            console.log ('User profile updated successfully');
+            console.log(user);
+            toast.success("User profile updated successfully");
+        })
+        .catch (error => {
+            console.log (error);
+            toast.warning(error.message);
+        })
     })
     .catch (error => {
         console.log(error);
         toast.error(error.message);
     })
-        
-    }
+   }
+   const handleGoogleSignIn = () => {
+    signInWithPopupFunc()
+    .then (result => {
+        const user = result.user;
+        console.log(user);
+        toast.success("User registered with Google successfully");
+       
+    })
+    .catch (error => {
+        console.log(error);
+        toast.error(error.message);
+    })
+   }
+     
    
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-900 to-indigo-900 px-4">
@@ -53,6 +95,7 @@ const Register = () => {
               className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
               required
             />
+            {nameError && <p className="text-red-500 text-sm mt-1">{nameError}</p>}
           </div>
 
           <div>
@@ -65,6 +108,7 @@ const Register = () => {
               required
             />
           </div>
+          
 
           <div>
             <label className="block text-sm text-gray-300 mb-1">Password</label>
@@ -75,6 +119,7 @@ const Register = () => {
               className="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
               required
             />
+            {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
           </div>
 
           <button
@@ -91,11 +136,11 @@ const Register = () => {
           <div className="h-px bg-gray-700 flex-1"></div>
         </div>
 
-        <button
+        <button onClick={handleGoogleSignIn}
           type="button"
           className="w-full flex items-center justify-center gap-2 py-2 border border-blue-600 rounded-lg text-gray-200 hover:bg-blue-900/40 transition duration-200"
         >
-          <FaGoogle className="text-red-500 text-lg" /> Continue with Google
+          <FaGoogle  className="text-red-500 text-lg" /> Continue with Google
         </button>
 
         <p className="text-center text-gray-400 mt-8 text-sm">
@@ -108,6 +153,7 @@ const Register = () => {
           </Link>
         </p>
       </div>
+      <ToastContainer />
     </div>
   );
 };

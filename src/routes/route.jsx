@@ -9,6 +9,8 @@ import AddModelLayout from '../layouts/AddModelLayout';
 import AuthLayout from '../layouts/AuthLayout';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
+import PrivateRoute from './PrivateRoute';
+import AccessRequired from '../pages/AccesReq';
 
 const router = createBrowserRouter([
   {
@@ -39,12 +41,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/allmodel", 
-    element: <AllModelsLayout> </AllModelsLayout>
+    element: <PrivateRoute>  <AllModelsLayout> </AllModelsLayout> </PrivateRoute>
   },
   {
     path: "/addmodel",
-    element: <AddModelLayout> </AddModelLayout>
+
+    element: <PrivateRoute> <AddModelLayout> </AddModelLayout></PrivateRoute> 
+  },
+  {
+    path: '/access-required',
+    element: <AccessRequired> </AccessRequired>
+
   }
+  
 ]);
 
 export default router;

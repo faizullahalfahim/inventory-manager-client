@@ -11,6 +11,7 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import PrivateRoute from './PrivateRoute';
 import AccessRequired from '../pages/AccesReq';
+import ModelDetails from '../pages/ModelDetails';
 
 const router = createBrowserRouter([
   {
@@ -35,7 +36,16 @@ const router = createBrowserRouter([
         {
             path: "/auth/register",
             element: <Register> </Register>
-        }
+        },
+        {
+    
+          path: "/model-details/:id",
+          element: <PrivateRoute>  <ModelDetails> </ModelDetails> </PrivateRoute>,
+          loader: ({params}) => fetch (`http://localhost:3000/models/${params.id}`)
+       
+  }
+       
+        
     ]
 
   },
@@ -54,7 +64,8 @@ const router = createBrowserRouter([
     path: '/access-required',
     element: <AccessRequired> </AccessRequired>
 
-  }
+  },
+  
   
 ]);
 

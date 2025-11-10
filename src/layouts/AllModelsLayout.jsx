@@ -3,6 +3,7 @@ import AllModels from '../components/AllModels';
 import Navbar from '../components/Navbar';
 
 const AllModelsLayout = () => {
+   
     return (
         <div>
             <Navbar> </Navbar>

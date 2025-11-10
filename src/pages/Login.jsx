@@ -13,7 +13,7 @@ const Login = () => {
         signInWithPopupFunc,
        
         sentPasswordResetEmailFunc,
-        user,
+      
         setUser
     } = useContext(AuthContext);
     const location = useLocation()

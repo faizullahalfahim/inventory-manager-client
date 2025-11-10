@@ -41,7 +41,9 @@ const router = createBrowserRouter([
   },
   {
     path: "/allmodel", 
-    element: <PrivateRoute>  <AllModelsLayout> </AllModelsLayout> </PrivateRoute>
+    element: <PrivateRoute>  <AllModelsLayout> </AllModelsLayout> </PrivateRoute>,
+    loader : () => fetch ('http://localhost:3000/models')
+
   },
   {
     path: "/addmodel",

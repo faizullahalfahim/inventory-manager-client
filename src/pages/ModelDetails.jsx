@@ -13,6 +13,7 @@ import {
   FaEdit,
   FaTrash,
 } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const ModelDetails = () => {
   const data = useLoaderData();
@@ -53,9 +54,44 @@ const ModelDetails = () => {
   };
 
   const handleDelete = () => {
-    if (window.confirm(`Are you sure you want to delete the model: ${name}?`)) {
-      console.log(`Deleting model with ID: ${_id}`);
-    }
+    Swal.fire({
+  title: "Are you sure?",
+  text: "You won't be able to revert this!",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Yes, delete it!"
+}).then((result) => {
+  if (result.isConfirmed) {
+
+    fetch(`http://localhost:3000/models/${_id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Success:", data);
+        
+        Swal.fire({
+      title: "Deleted!",
+      text: "Your file has been deleted.",
+      icon: "success"
+    });
+    navigate('/allmodel')
+        
+       
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+    
+  }
+});
+
   };
 
   return (

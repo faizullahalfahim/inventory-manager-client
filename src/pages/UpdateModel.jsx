@@ -53,7 +53,7 @@ const UpdateModel = () => {
       .then((data) => {
         console.log("Success:", data);
         e.target.reset();
-        navigate(`/models/${_id}`);
+        navigate('/allmodel');
       })
       .catch((error) => {
         console.error("Error:", error);

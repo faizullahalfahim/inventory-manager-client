@@ -1,4 +1,4 @@
-import React from "react";
+import React, { use, useContext, useState } from "react";
 import { useNavigate, useLoaderData } from "react-router";
 import {
   FaCodeBranch,
@@ -14,6 +14,7 @@ import {
   FaTrash,
 } from "react-icons/fa";
 import Swal from "sweetalert2";
+import { AuthContext } from "../contexts/AuthContext";
 
 const ModelDetails = () => {
   const data = useLoaderData();
@@ -28,7 +29,8 @@ const ModelDetails = () => {
       </div>
     );
   }
-
+  const {user} = use(AuthContext)
+  
   const {
     _id,
     name,
@@ -93,6 +95,44 @@ const ModelDetails = () => {
 });
 
   };
+  const handlePurchase = () => {
+    const finalModel = {
+     
+      name: modelData.name,
+      purchased: modelData.purchased,
+      created_by: modelData.created_by,
+      description: modelData.description,
+      createdAt: new Date(),
+      purchase_By: user.email
+    }
+    fetch(`http://localhost:3000/purchase${modelData._id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(finalModel)
+    
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Success:", data);
+        
+       Swal.fire({
+  position: "top-end",
+  icon: "success",
+  title: "Your App has been purchase",
+  showConfirmButton: false,
+  timer: 1500
+});
+    
+        
+       
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+
+  }
 
   return (
     <div className="min-h-screen bg-gray-950 text-white p-6 md:p-10">
@@ -201,9 +241,9 @@ const ModelDetails = () => {
                   </span>
                 </div>
 
-                <button
+                <button 
                   className="w-full sm:w-auto px-8 py-3 bg-green-600 text-white font-extrabold rounded-lg border-none shadow-2xl shadow-green-500/30 hover:bg-green-700 transition duration-200 transform hover:scale-[1.03]"
-                  onClick={() => alert(`Purchasing ${name}...`)}
+                  onClick={handlePurchase}
                 >
                   <FaRocket className="text-xl mr-2" /> Purchase Model
                 </button>

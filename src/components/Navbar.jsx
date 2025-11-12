@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink } from "react-router"; 
 import { AuthContext } from "../contexts/AuthContext";
-import { FaUserCircle, FaSignOutAlt } from "react-icons/fa";
+import { FaUserCircle, FaSignOutAlt, FaBars } from "react-icons/fa"; 
 
 const Navbar = () => {
     const { user, signOutFunc } = useContext(AuthContext);
@@ -16,6 +16,43 @@ const Navbar = () => {
         });
     }
 
+    const navLinks = (
+        <>
+            <NavLink
+                to="/"
+                className={({ isActive }) =>
+                    isActive
+                        ? "text-blue-400 border-b-2 border-blue-400 pb-1 transition-colors duration-150"
+                        : "hover:text-blue-400 transition-colors duration-150"
+                }
+            >
+                Home
+            </NavLink>
+
+            <NavLink
+                to="/allmodel"
+                className={({ isActive }) =>
+                    isActive
+                        ? "text-blue-400 border-b-2 border-blue-400 pb-1 transition-colors duration-150"
+                        : "hover:text-blue-400 transition-colors duration-150"
+                }
+            >
+                All Model
+            </NavLink>
+
+            <NavLink
+                to="/addmodel"
+                className={({ isActive }) =>
+                    isActive
+                        ? "text-blue-400 border-b-2 border-blue-400 pb-1 transition-colors duration-150"
+                        : "hover:text-blue-400 transition-colors duration-150"
+                }
+            >
+                Add Model
+            </NavLink>
+        </>
+    );
+
     const userDropdownContent = (
       <ul
         tabIndex={0}
@@ -27,7 +64,7 @@ const Navbar = () => {
         </li>
         
         <li>
-          <Link to="/my-purchased-models" className="hover:bg-blue-800/50">
+          <Link to="/purchase" className="hover:bg-blue-800/50">
             My Purchased Models
           </Link>
         </li>
@@ -50,48 +87,28 @@ const Navbar = () => {
     <nav className="bg-gray-900/90 backdrop-blur-sm shadow-lg sticky top-0 z-50 px-6 py-3 border-b border-blue-800/50">
       <div className="container mx-auto flex items-center justify-between">
         
-        <div className="flex-none">
+        <div className="md:hidden flex-none">
+            <div className="dropdown">
+                <div tabIndex={0} role="button" className="btn btn-ghost text-white hover:bg-blue-800/50">
+                    <FaBars className="text-xl" />
+                </div>
+                <ul tabIndex={0} className="menu menu-md dropdown-content bg-gray-900/95 text-gray-300 rounded-xl mt-3 w-64 p-3 shadow-2xl z-[10] border border-blue-700/50 backdrop-blur-sm space-y-2">
+                    <li className="text-lg font-medium">{navLinks}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div className="flex-none md:flex-1 md:px-2">
           <Link
             to="/"
-            className="text-3xl font-extrabold text-blue-500 hover:text-blue-400 transition-colors duration-200 tracking-wider"
+            className="text-2xl md:text-3xl font-extrabold text-blue-500 hover:text-blue-400 transition-colors duration-200 tracking-wider"
           >
             AI Inventory<span className="text-white font-light"> Manager</span>
           </Link>
         </div>
 
-        <div className="flex-1 flex justify-center space-x-8 text-lg font-medium text-gray-300">
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              isActive
-                ? "text-blue-400 border-b-2 border-blue-400 pb-1 transition-colors duration-150"
-                : "hover:text-blue-400 transition-colors duration-150"
-            }
-          >
-            Home
-          </NavLink>
-
-          <NavLink
-            to="/allmodel"
-            className={({ isActive }) =>
-              isActive
-                ? "text-blue-400 border-b-2 border-blue-400 pb-1 transition-colors duration-150"
-                : "hover:text-blue-400 transition-colors duration-150"
-            }
-          >
-            All Model
-          </NavLink>
-
-          <NavLink
-            to="/addmodel"
-            className={({ isActive }) =>
-              isActive
-                ? "text-blue-400 border-b-2 border-blue-400 pb-1 transition-colors duration-150"
-                : "hover:text-blue-400 transition-colors duration-150"
-            }
-          >
-            Add Model
-          </NavLink>
+        <div className="hidden md:flex flex-1 justify-center space-x-8 text-lg font-medium text-gray-300">
+          {navLinks}
         </div>
 
         <div className="flex-none">
@@ -115,7 +132,7 @@ const Navbar = () => {
             ):(
                <NavLink to="/auth/login"> 
                 <button className="btn bg-blue-600 text-white font-semibold shadow-lg shadow-blue-500/30 hover:bg-blue-700 transition duration-200 border-none">
-                    <FaUserCircle className="text-lg" /> Login 
+                    <FaUserCircle className="text-lg" /> <span className="hidden sm:inline">Login</span>
                 </button>
               </NavLink>
             )}

@@ -14,6 +14,8 @@ import AccessRequired from "../pages/AccesReq";
 import ModelDetails from "../pages/ModelDetails";
 import UpdateModel from "../pages/UpdateModel";
 import NotFound from "../pages/NotFound";
+import MyModels from "../pages/MyModels";
+import MyPurchase from "../pages/MyPurchase";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +59,14 @@ const router = createBrowserRouter([
             </PrivateRoute>,
             loader: ({ params }) =>
           fetch(`http://localhost:3000/models/${params.id}`),
+      },
+      {
+        path: '/my-models',
+        element: <MyModels> </MyModels>
+      },
+      {
+        path: '/purchase',
+        element: <MyPurchase> </MyPurchase>
       }
     ],
   },

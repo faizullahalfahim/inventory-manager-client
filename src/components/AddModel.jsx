@@ -1,11 +1,10 @@
-
 import { FaPlus } from "react-icons/fa";
 import { AuthContext } from "../contexts/AuthContext";
-import {  useContext} from "react";
-
+import { useContext } from "react";
+import { toast } from "react-toastify";
 
 const AddModel = () => {
-  const {user} = useContext(AuthContext)
+  const { user } = useContext(AuthContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,7 +18,7 @@ const AddModel = () => {
       description: e.target.description.value,
       createdAt: new Date(),
       purchased: 0,
-    }
+    };
     document.getElementById("addModelModal").close();
     fetch("http://localhost:3000/models", {
       method: "POST",
@@ -28,15 +27,16 @@ const AddModel = () => {
       },
       body: JSON.stringify(formData),
     })
-    .then((res) => res.json())
-    .then((data) => {
-      console.log("Success:", data);
-      e.target.reset();
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
-  }
+      .then((res) => res.json())
+      .then((data) => {
+        toast.success("Successfully added");
+        console.log("Success:", data);
+        e.target.reset();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
 
   return (
     <div className="flex justify-center items-center py-12 px-4 bg-gray-50">
@@ -68,7 +68,6 @@ const AddModel = () => {
               💾 New AI Model Entry
             </span>
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-20 h-1 bg-blue-500 rounded-full"></div>{" "}
-       
           </h3>
 
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -158,21 +157,20 @@ const AddModel = () => {
                   required
                 />
               </div>
-
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text font-semibold text-gray-700">
-                    Created By (Email) <span className="text-red-500">*</span>
-                  </span>
-                </label>
-                <input
-                  type="email"
-                  name="createdBy"
-                  placeholder="Enter your email"
-                  className="input input-bordered w-full focus:ring-2 focus:ring-blue-500 transition duration-150"
-                  required
-                />
-              </div>
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text font-semibold text-gray-700">
+                  Created By (Email)
+                </span>
+              </label>
+              <input
+                type="email"
+                name="createdBy"
+                value={user?.email || "Loading..."}
+                className="input input-bordered w-full bg-gray-100 text-gray-500 cursor-not-allowed"
+                disabled
+              />
             </div>
 
             <div className="form-control">
@@ -190,7 +188,6 @@ const AddModel = () => {
             </div>
 
             <div className="modal-action flex justify-end gap-3 pt-6 border-t border-gray-100">
-              
               <button
                 type="button"
                 className="btn btn-ghost border border-gray-300 hover:bg-gray-100 transition duration-150"
@@ -198,7 +195,7 @@ const AddModel = () => {
               >
                 Close
               </button>
-              
+
               <button
                 type="submit"
                 className="btn bg-blue-600 text-white shadow-lg hover:bg-blue-700 transition duration-150"

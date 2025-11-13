@@ -42,7 +42,7 @@ const UpdateModel = () => {
       description: e.target.description.value,
     };
 
-    fetch(`http://localhost:3000/models/${_id}`, {
+    fetch(`https://inventory-maneger-server.vercel.app/models/${_id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

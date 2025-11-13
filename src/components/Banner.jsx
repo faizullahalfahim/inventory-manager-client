@@ -1,99 +1,99 @@
-import React from 'react';
-import { useNavigate } from 'react-router';
+import React from "react";
+import { useNavigate } from "react-router";
 
 const Banner = () => {
-    const navigate = useNavigate();
-    
-    const slides = [
-        {
-            id: "slide1",
-            title: "Manage Your AI Model Inventory",
-            tagline: "Centralized • Efficient • Scalable",
-            text: "Catalog, track, and deploy your Machine Learning models efficiently. Organize by framework, use case, and performance metrics.",
-            image: "https://images.unsplash.com/photo-1581091226825-a6a2a5a191b4?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
-            ctaText: "Explore All Models",
-            ctaLink: "/models"
-        },
-        {
-            id: "slide2",
-            title: "Access Diverse Datasets & Frameworks",
-            tagline: "TensorFlow • PyTorch • Keras • Scikit-Learn",
-            text: "Find models built with the industry's leading frameworks. Understand the dataset and usage history for every asset in your inventory.",
-            image: "https://images.unsplash.com/photo-1550745165-9bc0b252726c?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
-            ctaText: "Learn About Frameworks",
-            ctaLink: "/about"
-        },
-        {
-            id: "slide3",
-            title: "Ready to Start Building?",
-            tagline: "Join the Future of AI Development",
-            text: "Join our platform to upload your own models, manage your assets, and collaborate with other developers.",
-            image: "https://images.unsplash.com/photo-1605379399642-870262d3d051?q=80&w=2706&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
-            ctaText: "Get Started Now",
-            ctaLink: "/register"
-        }
-    ];
+  const navigate = useNavigate();
 
-    return (
-        <div className="carousel w-full h-[85vh] lg:h-[90vh] bg-gray-900 shadow-xl">
-            {slides.map((slide, index) => (
-                <div 
-                    key={slide.id}
-                    id={slide.id} 
-                    className="carousel-item relative w-full"
-                >
-                    <div
-                        className="hero w-full h-full"
-                        style={{
-                            backgroundImage: `url(${slide.image})`,
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center center',
-                        }}
-                    >
-                        <div className="hero-overlay bg-gradient-to-t from-gray-950 via-black/70 to-transparent"></div> 
-                        <div className="hero-content text-neutral-content text-center py-24 md:py-32 px-6">
-                            <div className="max-w-4xl animate-fade-in-up">
-                                
-                                <h2 className="mb-4 text-xl md:text-2xl font-medium text-blue-300 tracking-wide uppercase">
-                                    {slide.tagline}
-                                </h2>
-                                
-                                <h1 className="mb-6 text-5xl md:text-6xl font-extrabold text-white leading-tight drop-shadow-md">
-                                    {slide.title}
-                                </h1>
-                                
-                                <p className="mb-10 text-lg md:text-xl text-gray-200 max-w-3xl mx-auto leading-relaxed">
-                                    {slide.text}
-                                </p>
-                                
-                                <button 
-                                    onClick={() => navigate(slide.ctaLink)}
-                                    className="btn btn-lg bg-blue-600 text-white border-none hover:bg-blue-700 font-semibold shadow-xl shadow-blue-500/30 transition-all duration-300 transform hover:scale-105 active:scale-95 px-8"
-                                >
-                                    {slide.ctaText}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+  const slides = [
+    {
+      id: 1,
+      title: "Manage Your AI Models Smartly",
+      tagline: "Efficient • Organized • Insightful",
+      text: "Keep all your AI models in one place — track frameworks, datasets, and performance metrics effortlessly.",
+      ctaText: "Explore All Models",
+      ctaLink: "/allmodel",
+      gradient: "from-primary/80 via-secondary/80 to-accent/80",
+    },
+    {
+      id: 2,
+      title: "Your Personal AI Model Inventory",
+      tagline: "Built for Developers, Designed for Clarity",
+      text: "Experience a seamless way to catalog and manage AI models — optimized for modern workflows.",
+      ctaText: "Add New Model",
+      ctaLink: "/addmodel",
+      gradient: "from-accent/80 via-info/80 to-success/80",
+    },
+    {
+      id: 3,
+      title: "Collaborate. Share. Scale.",
+      tagline: "Empowering AI Teams Globally",
+      text: "Join a growing AI community where developers collaborate and innovate on model management.",
+      ctaText: "Get Started Now",
+      ctaLink: "/auth/register",
+      gradient: "from-secondary/80 via-warning/80 to-error/80",
+    },
+  ];
 
-                    <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                        <a 
-                            href={`#${slides[index === 0 ? slides.length - 1 : index - 1].id}`} 
-                            className="btn btn-circle bg-white/10 backdrop-blur-sm border-none text-white opacity-70 hover:opacity-100 text-xl transition-all duration-200"
-                        >
-                            ❮
-                        </a> 
-                        <a 
-                            href={`#${slides[index === slides.length - 1 ? 0 : index + 1].id}`} 
-                            className="btn btn-circle bg-white/10 backdrop-blur-sm border-none text-white opacity-70 hover:opacity-100 text-xl transition-all duration-200"
-                        >
-                            ❯
-                        </a>
-                    </div>
-                </div>
-            ))}
-        </div>
-    );
+  return (
+    <div className="relative overflow-hidden">
+      <div className="carousel w-full h-[80vh] md:h-[85vh] lg:h-[90vh] bg-base-100">
+        {slides.map((slide, index) => (
+          <div
+            key={slide.id}
+            id={`slide${slide.id}`}
+            className={`carousel-item relative w-full bg-gradient-to-r ${slide.gradient} flex items-center justify-center transition-all duration-700`}
+          >
+            <div className="text-center text-base-content p-8 md:p-16 relative z-10">
+              <p className="text-sm md:text-lg uppercase tracking-widest font-semibold mb-4 text-base-content/90">
+                {slide.tagline}
+              </p>
+              <h1 className="text-4xl md:text-6xl font-extrabold leading-tight drop-shadow-lg mb-6 text-base-content">
+                {slide.title}
+              </h1>
+              <p className="text-base md:text-lg text-base-content/90 max-w-2xl mx-auto mb-8">
+                {slide.text}
+              </p>
+              <button
+                onClick={() => navigate(slide.ctaLink)}
+                className="btn btn-lg btn-accent text-accent-content px-8 py-3 rounded-full font-semibold shadow-2xl shadow-accent/40 hover:scale-[1.03] transition-transform duration-300"
+              >
+                {slide.ctaText}
+              </button>
+            </div>
+
+            <div className="absolute flex justify-between transform -translate-y-1/2 left-6 right-6 top-1/2 z-20">
+              <a
+                href={`#slide${index === 0 ? slides.length : index}`}
+                className="btn btn-circle bg-base-100/30 hover:bg-base-100/50 text-base-content border-none backdrop-blur-sm shadow-md"
+              >
+                ❮
+              </a>
+              <a
+                href={`#slide${index === slides.length - 1 ? 1 : index + 2}`}
+                className="btn btn-circle bg-base-100/30 hover:bg-base-100/50 text-base-content border-none backdrop-blur-sm shadow-md"
+              >
+                ❯
+              </a>
+            </div>
+
+            <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-3 z-20">
+              {slides.map((s, i) => (
+                <a
+                  key={s.id}
+                  href={`#slide${s.id}`}
+                  className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                    i === index
+                      ? "bg-base-content scale-125 shadow-md"
+                      : "bg-base-content/50 hover:bg-base-content/70"
+                  }`}
+                ></a>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default Banner;

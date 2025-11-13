@@ -20,7 +20,7 @@ const AddModel = () => {
       purchased: 0,
     };
     document.getElementById("addModelModal").close();
-    fetch("http://localhost:3000/models", {
+    fetch("https://inventory-maneger-server.vercel.app/models", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

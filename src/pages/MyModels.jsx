@@ -21,7 +21,7 @@ const MyModels = () => {
         setLoading(true);
         setError(null);
 
-        fetch(`http://localhost:3000/my-models?email=${user.email}`)
+        fetch(`https://inventory-maneger-server.vercel.app/my-models?email=${user.email}`)
             .then(res => {
                 if (!res.ok) {
                     throw new Error("Failed to fetch data.");

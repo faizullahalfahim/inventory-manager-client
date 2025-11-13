@@ -45,12 +45,11 @@ const router = createBrowserRouter([
         path: "/model-details/:id",
         element: 
           <PrivateRoute>
-            
             <ModelDetails> </ModelDetails>{" "}
           </PrivateRoute>
         ,
         loader: ({ params }) =>
-          fetch(`http://localhost:3000/models/${params.id}`),
+          fetch(`https://inventory-maneger-server.vercel.app/models/${params.id}`),
       },
       {
         path: "/models/edit/:id",
@@ -58,15 +57,16 @@ const router = createBrowserRouter([
            <UpdateModel> </UpdateModel>
             </PrivateRoute>,
             loader: ({ params }) =>
-          fetch(`http://localhost:3000/models/${params.id}`),
+          fetch(`https://inventory-maneger-server.vercel.app/models/${params.id}`),
       },
       {
         path: '/my-models',
-        element: <MyModels> </MyModels>
+        
+        element: <PrivateRoute> <MyModels> </MyModels> </PrivateRoute>
       },
       {
         path: '/purchase',
-        element: <MyPurchase> </MyPurchase>
+        element: <PrivateRoute><MyPurchase> </MyPurchase> </PrivateRoute> 
       }
     ],
   },
@@ -74,19 +74,19 @@ const router = createBrowserRouter([
   {
     path: "/allmodel",
     element: (
-      <PrivateRoute>
-        {" "}
-        <AllModelsLayout> </AllModelsLayout>{" "}
-      </PrivateRoute>
+     
+      
+        <AllModelsLayout> </AllModelsLayout>
+     
     ),
-    loader: () => fetch("http://localhost:3000/models"),
+    loader: () => fetch("https://inventory-maneger-server.vercel.app/models"),
   },
   {
     path: "/addmodel",
 
     element: (
       <PrivateRoute>
-        {" "}
+        
         <AddModelLayout> </AddModelLayout>
       </PrivateRoute>
     ),

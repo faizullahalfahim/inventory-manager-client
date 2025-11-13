@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 
 const HomeLayout = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-950">
+    <div className="min-h-screen flex flex-col bg-base-100">
       <header className="sticky top-0 z-50">
         <Navbar />
       </header>
@@ -14,7 +14,7 @@ const HomeLayout = () => {
       <main className="flex-grow">
         <Banner />
 
-        <section id="recent-models" className="py-16 md:py-24">
+        <section id="recent-models">
           <ResentModels />
         </section>
       </main>

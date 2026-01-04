@@ -1,104 +1,118 @@
 import React from "react";
-
 import { createBrowserRouter } from "react-router";
-import { RouterProvider } from "react-router/dom";
-import HomeLayout from "../layouts/HomeLayout";
-import AllModels from "../components/AllModels";
-import AllModelsLayout from "../layouts/AllModelsLayout";
-import AddModelLayout from "../layouts/AddModelLayout";
-import AuthLayout from "../layouts/AuthLayout";
+import RootLayout from "../layouts/RootLayout";
+import AccessRequired from "../pages/AccesReq";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import PrivateRoute from "./PrivateRoute";
-import AccessRequired from "../pages/AccesReq";
 import ModelDetails from "../pages/ModelDetails";
 import UpdateModel from "../pages/UpdateModel";
-import NotFound from "../pages/NotFound";
 import MyModels from "../pages/MyModels";
 import MyPurchase from "../pages/MyPurchase";
+import NotFound from "../pages/NotFound";
+import Home from "../components/Home";
+import AllModels from "../components/AllModels";
+import AddModel from "../components/AddModel";
+import AboutUs from "../components/AboutUs";
+import DashboardLayout from "../layouts/DashboardLayout";
+import MyProfile from "../components/MyProfile";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomeLayout> </HomeLayout>,
+    element: <RootLayout />, 
     children: [
       {
-        path: "/",
-        element: <HomeLayout> </HomeLayout>,
-        
-      },
-    ],
-  },
-  {
-    path: "/",
-    element: <AuthLayout> </AuthLayout>,
-    children: [
-      {
-        path: "/auth/login",
-        element: <Login> </Login>,
+        index: true,
+        element: <Home> </Home>
       },
       {
-        path: "/auth/register",
-        element: <Register> </Register>,
+        path: "/allmodel",
+        element: <AllModels></AllModels>,
+        loader: () => fetch("https://inventory-maneger-server.vercel.app/models"),
+      },
+      {
+        path: "/addmodel",
+        element: (
+          <PrivateRoute>
+            <AddModel> </AddModel> 
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/my-models",
+        element: (
+          <PrivateRoute>
+            <MyModels />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/purchase",
+        element: (
+          <PrivateRoute>
+            <MyPurchase />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/model-details/:id",
-        element: 
+        element: <ModelDetails />,
+        loader: ({ params }) => fetch(`https://inventory-maneger-server.vercel.app/models/${params.id}`),
+      },
+      {
+        path: "/update-model/:id",
+        element: (
           <PrivateRoute>
-            <ModelDetails> </ModelDetails>{" "}
+            <UpdateModel />
           </PrivateRoute>
-        ,
-        loader: ({ params }) =>
-          fetch(`https://inventory-maneger-server.vercel.app/models/${params.id}`),
+        ),
+        loader: ({ params }) => fetch(`https://inventory-maneger-server.vercel.app/models/${params.id}`),
       },
       {
-        path: "/models/edit/:id",
-        element:<PrivateRoute>
-           <UpdateModel> </UpdateModel>
-            </PrivateRoute>,
-            loader: ({ params }) =>
-          fetch(`https://inventory-maneger-server.vercel.app/models/${params.id}`),
+        path: "/access-required",
+        element: <AccessRequired />,
       },
       {
-        path: '/my-models',
-        
-        element: <PrivateRoute> <MyModels> </MyModels> </PrivateRoute>
+        path: "/login",
+        element: <Login />,
       },
       {
-        path: '/purchase',
-        element: <PrivateRoute><MyPurchase> </MyPurchase> </PrivateRoute> 
+        path: "/register",
+        element: <Register />,
+      },
+      {
+        path: "/about",
+        element: <AboutUs> </AboutUs>
       }
     ],
   },
-
   {
-    path: "/allmodel",
-    element: (
-     
-      
-        <AllModelsLayout> </AllModelsLayout>
-     
-    ),
-    loader: () => fetch("https://inventory-maneger-server.vercel.app/models"),
-  },
-  {
-    path: "/addmodel",
-
-    element: (
-      <PrivateRoute>
-        
-        <AddModelLayout> </AddModelLayout>
-      </PrivateRoute>
-    ),
-  },
-  {
-    path: "/access-required",
-    element: <AccessRequired> </AccessRequired>,
-  },
+  path: "/dashboard",
+  element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
+  children: [
+    {
+      path: "my-models", 
+      element: <MyModels />,
+    },
+    {
+      path: "my-purchase",
+      element: <MyPurchase />,
+    },
+    {
+      path: "add-model", 
+      element: <AddModel />,
+    },
+    {
+      path: "profile", 
+      element: <MyProfile />,
+    },
+  ],
+},
   {
     path: "*",
-    element: <NotFound> </NotFound>
-  }
+    element: <NotFound />, 
+  },
 ]);
 
 export default router;

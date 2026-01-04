@@ -3,8 +3,9 @@ import Navbar from "../components/Navbar";
 import Banner from "../components/Banner";
 import ResentModels from "../pages/ResentModels";
 import Footer from "../components/Footer";
+import { Outlet } from "react-router";
 
-const HomeLayout = () => {
+const RootLayout = () => {
   return (
     <div className="min-h-screen flex flex-col bg-base-100">
       <header className="sticky top-0 z-50">
@@ -12,11 +13,12 @@ const HomeLayout = () => {
       </header>
 
       <main className="flex-grow">
-        <Banner />
+        {/* <Banner />
 
         <section id="recent-models">
           <ResentModels />
-        </section>
+        </section> */}
+        <Outlet> </Outlet>
       </main>
 
       <footer>
@@ -26,4 +28,4 @@ const HomeLayout = () => {
   );
 };
 
-export default HomeLayout;
+export default RootLayout;

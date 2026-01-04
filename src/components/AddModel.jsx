@@ -2,41 +2,58 @@ import { FaPlus } from "react-icons/fa";
 import { AuthContext } from "../contexts/AuthContext";
 import { useContext } from "react";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const AddModel = () => {
   const { user } = useContext(AuthContext);
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    const formData = {
-      name: e.target.name.value,
-      framework: e.target.framework.value,
-      useCase: e.target.useCase.value,
-      dataset: e.target.dataset.value,
-      image: e.target.image.value,
-      createdBy: user?.email,
-      description: e.target.description.value,
-      createdAt: new Date(),
-      purchased: 0,
-    };
-    document.getElementById("addModelModal").close();
-    fetch("https://inventory-maneger-server.vercel.app/models", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        toast.success("Successfully added");
-        console.log("Success:", data);
-        e.target.reset();
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+  e.preventDefault();
+
+  const formData = {
+    name: e.target.name.value,
+    framework: e.target.framework.value,
+    useCase: e.target.useCase.value,
+    dataset: e.target.dataset.value,
+    image: e.target.image.value,
+    createdBy: user?.email,
+    description: e.target.description.value,
+    createdAt: new Date(),
+    purchased: 0,
   };
+
+  document.getElementById("addModelModal").close();
+
+  fetch("https://inventory-maneger-server.vercel.app/models", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      Swal.fire({
+        icon: "success",
+        title: "Success!",
+        text: "AI Model added successfully.",
+        confirmButtonColor: "#2563eb",
+      });
+
+      e.target.reset();
+      console.log("Success:", data);
+    })
+    .catch((error) => {
+      Swal.fire({
+        icon: "error",
+        title: "Oops!",
+        text: "Something went wrong. Please try again.",
+        confirmButtonColor: "#dc2626",
+      });
+
+      console.error("Error:", error);
+    });
+};
 
   return (
     <div className="flex justify-center items-center py-12 px-4 bg-gray-50">

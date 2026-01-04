@@ -2,16 +2,21 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, NavLink } from "react-router";
 import { AuthContext } from "../contexts/AuthContext";
 import {
-  FaUserCircle,
   FaSignOutAlt,
   FaBars,
   FaMoon,
   FaSun,
+  FaThLarge,
+  FaUserAlt,
+  FaHome,
+  FaBoxOpen,
+  FaInfoCircle,
+  FaPlusSquare,
+  FaTimes,
 } from "react-icons/fa";
 
 const Navbar = () => {
   const { user, signOutFunc } = useContext(AuthContext);
-
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
   useEffect(() => {
@@ -26,163 +31,150 @@ const Navbar = () => {
 
   const handleLogout = () => {
     signOutFunc()
-      .then(() => {
-        console.log("User logged out successfully");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      .then(() => console.log("Logged out"))
+      .catch((err) => console.log(err));
   };
 
-  const navLinks = (
+  const allNavLinks = (
     <>
-      <NavLink
-        to="/"
-        className={({ isActive }) =>
-          isActive
-            ? "text-blue-400 border-b-2 border-blue-400 pb-1 transition-colors duration-150"
-            : "hover:text-blue-400 transition-colors duration-150"
-        }
-      >
-        Home
-      </NavLink>
-
-      <NavLink
-        to="/allmodel"
-        className={({ isActive }) =>
-          isActive
-            ? "text-blue-400 border-b-2 border-blue-400 pb-1 transition-colors duration-150"
-            : "hover:text-blue-400 transition-colors duration-150"
-        }
-      >
-        All Model
-      </NavLink>
-
-      <NavLink
-        to="/addmodel"
-        className={({ isActive }) =>
-          isActive
-            ? "text-blue-400 border-b-2 border-blue-400 pb-1 transition-colors duration-150"
-            : "hover:text-blue-400 transition-colors duration-150"
-        }
-      >
-        Add Model
-      </NavLink>
+      <li>
+        <NavLink to="/" className={({isActive}) => `flex items-center gap-3 py-3 rounded-xl ${isActive ? 'bg-primary text-white' : 'hover:bg-primary/10'}`}>
+          <FaHome /> Home
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/allmodel" className={({isActive}) => `flex items-center gap-3 py-3 rounded-xl ${isActive ? 'bg-primary text-white' : 'hover:bg-primary/10'}`}>
+          <FaBoxOpen /> All Models
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/about" className={({isActive}) => `flex items-center gap-3 py-3 rounded-xl ${isActive ? 'bg-primary text-white' : 'hover:bg-primary/10'}`}>
+          <FaInfoCircle /> About Us
+        </NavLink>
+      </li>
+      {user && (
+        <>
+          <li>
+            <NavLink to="/addmodel" className={({isActive}) => `flex items-center gap-3 py-3 rounded-xl ${isActive ? 'bg-primary text-white' : 'hover:bg-primary/10'}`}>
+              <FaPlusSquare /> Add Model
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/dashboard" className={({isActive}) => `flex items-center gap-3 py-3 rounded-xl ${isActive ? 'bg-primary text-white' : 'hover:bg-primary/10'}`}>
+              <FaThLarge /> Dashboard
+            </NavLink>
+          </li>
+        </>
+      )}
     </>
   );
 
-  const userDropdownContent = (
-    <ul
-      tabIndex={0}
-      className="menu menu-sm dropdown-content bg-base-200/95 text-base-content rounded-xl mt-3 w-56 p-3 shadow-2xl z-[10] border border-primary/50 backdrop-blur-sm"
-    >
-      <li className="p-2 mb-2 border-b border-primary/50">
-        <p className="font-bold text-primary text-base">
-          {user?.displayName || "AI User"}
-        </p>
-        <p className="text-xs text-base-content/70 break-words">
-          {user?.email}
-        </p>
-      </li>
-
-      <li>
-        <Link to="/purchase" className="hover:bg-primary/20">
-          My Purchased Models
-        </Link>
-      </li>
-
-      <li>
-        <Link to="/my-models" className="hover:bg-primary/20">
-          My Models
-        </Link>
-      </li>
-
-      <li>
-        <a
-          onClick={handleLogout}
-          className="text-red-400 hover:bg-red-600/70 hover:text-white mt-1 font-semibold"
-        >
-          <FaSignOutAlt /> Logout
-        </a>
-      </li>
-    </ul>
-  );
-
   return (
-    <nav className="bg-base-100/90 backdrop-blur-md shadow-xl sticky top-0 z-50 px-6 py-3 border-b border-base-300">
-      <div className="container mx-auto flex items-center justify-between">
-        <div className="md:hidden flex-none">
-          <div className="dropdown">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost text-base-content hover:bg-base-200"
-            >
-              <FaBars className="text-xl" />
-            </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-md dropdown-content bg-base-200/95 text-base-content rounded-xl mt-3 w-64 p-3 shadow-2xl z-[10] border border-primary/50 backdrop-blur-sm space-y-2"
-            >
-              <li className="text-lg font-medium">{navLinks}</li>
-            </ul>
-          </div>
-        </div>
+    <div className="drawer z-50">
+      {/* Drawer Toggle */}
+      <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+      
+      <div className="drawer-content flex flex-col">
+        {/* Navbar */}
+        <nav className="bg-base-100/90 backdrop-blur-md shadow-md sticky top-0 z-40 border-b border-base-200">
+          <div className="container mx-auto px-4 py-3">
+            <div className="flex items-center justify-between">
+              
+              <div className="flex items-center gap-2">
+                {/* Hamburger Button to trigger Sidebar */}
+                <label
+                  htmlFor="my-drawer"
+                  className="btn btn-ghost btn-circle drawer-button hover:bg-primary/10 transition-colors"
+                >
+                  <FaBars className="text-2xl text-primary" />
+                </label>
 
-        <div className="flex-none md:flex-1 md:px-2">
-          <Link
-            to="/"
-            className="text-2xl md:text-3xl font-extrabold text-primary hover:text-primary/80 transition-colors duration-200 tracking-wider"
-          >
-            AI Inventory
-            <span className="text-base-content font-light"> Manager</span>
-          </Link>
-        </div>
-
-        <div className="hidden md:flex flex-1 justify-center space-x-8 text-lg font-medium text-base-content">
-          {navLinks}
-        </div>
-
-        <div className="flex-none flex items-center space-x-4">
-          <button
-            onClick={handleToggleTheme}
-            className="btn btn-ghost btn-circle text-xl text-base-content transition duration-150 hover:bg-base-200"
-            aria-label="Toggle theme"
-          >
-            {theme === "dark" ? (
-              <FaSun className="text-yellow-400" />
-            ) : (
-              <FaMoon className="text-indigo-400" />
-            )}
-          </button>
-
-          {user ? (
-            <div className="dropdown dropdown-end">
-              <div
-                tabIndex={0}
-                role="button"
-                className="btn btn-ghost btn-circle avatar transition duration-150 hover:bg-base-200"
-              >
-                <div className="w-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                  <img
-                    alt="User Profile"
-                    src={user.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"}
-                  />
-                </div>
+                <Link to="/" className="flex items-center ml-2">
+                  <span className="text-xl md:text-2xl font-black tracking-tighter text-primary italic">
+                    AI
+                    <span className="text-base-content not-italic font-bold">Inventory</span>
+                  </span>
+                </Link>
               </div>
-              {userDropdownContent}
+
+              <div className="flex items-center gap-3">
+                <button onClick={handleToggleTheme} className="btn btn-ghost btn-circle">
+                  {theme === "dark" ? <FaSun className="text-yellow-400 text-xl" /> : <FaMoon className="text-indigo-600 text-xl" />}
+                </button>
+
+                {user ? (
+                  <div className="dropdown dropdown-end">
+                    <label tabIndex={0} className="btn btn-ghost btn-circle avatar ring-2 ring-primary ring-offset-base-100 ring-offset-2">
+                      <div className="w-10 rounded-full">
+                        <img src={user?.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"} alt="User" />
+                      </div>
+                    </label>
+                    <ul tabIndex={0} className="mt-4 z-[1] p-3 shadow-2xl menu menu-sm dropdown-content bg-base-100 rounded-2xl w-60 border border-base-200">
+                      <li className="mb-2 p-3 bg-primary/5 rounded-xl text-center">
+                        <p className="font-bold text-primary truncate">{user?.displayName}</p>
+                        <p className="text-[10px] opacity-60 truncate">{user?.email}</p>
+                      </li>
+                      <li>
+                        <Link to="/dashboard/profile" className="py-3 flex items-center gap-3">
+                          <FaUserAlt className="text-primary" /> My Profile
+                        </Link>
+                      </li>
+                      <div className="divider my-1"></div>
+                      <li>
+                        <button onClick={handleLogout} className="btn btn-error btn-outline btn-sm mt-2 w-full flex items-center justify-center gap-2">
+                          <FaSignOutAlt /> Logout
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                ) : (
+                  <Link to="/login">
+                    <button className="btn btn-primary px-6 text-white rounded-full shadow-lg font-bold border-none">
+                      Login
+                    </button>
+                  </Link>
+                )}
+              </div>
             </div>
-          ) : (
-            <NavLink to="/auth/login">
-              <button className="btn btn-primary text-white font-semibold shadow-lg shadow-primary/30 hover:bg-primary/90 transition duration-200 border-none">
-                <FaUserCircle className="text-lg" />{" "}
-                <span className="hidden sm:inline">Login</span>
-              </button>
-            </NavLink>
+          </div>
+        </nav>
+      </div>
+
+      {/* Sidebar (Drawer Side) */}
+      <div className="drawer-side">
+        <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
+        <div className="menu p-6 w-80 min-h-full bg-base-100 text-base-content border-r border-base-200 shadow-2xl">
+          {/* Sidebar Header */}
+          <div className="flex items-center justify-between mb-8">
+            <span className="text-2xl font-black text-primary italic">
+              AI<span className="text-base-content not-italic">Inventory</span>
+            </span>
+            <label htmlFor="my-drawer" className="btn btn-ghost btn-circle btn-sm">
+              <FaTimes className="text-xl" />
+            </label>
+          </div>
+          
+          {/* Navigation Links */}
+          <ul className="space-y-2 text-lg font-medium">
+            <p className="text-xs uppercase tracking-widest text-base-content/40 font-bold mb-4">Main Menu</p>
+            {allNavLinks}
+          </ul>
+
+          {/* User Info in Sidebar (Optional) */}
+          {user && (
+             <div className="mt-auto pt-6 border-t border-base-200">
+                <div className="flex items-center gap-4 mb-4">
+                    <img className="w-12 h-12 rounded-full" src={user?.photoURL} alt="" />
+                    <div className="overflow-hidden">
+                        <h4 className="font-bold truncate">{user?.displayName}</h4>
+                        <p className="text-xs opacity-60 truncate">{user?.email}</p>
+                    </div>
+                </div>
+             </div>
           )}
         </div>
       </div>
-    </nav>
+    </div>
   );
 };
 
